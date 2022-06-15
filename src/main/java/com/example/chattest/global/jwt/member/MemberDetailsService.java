@@ -1,7 +1,7 @@
 package com.example.chattest.global.jwt.member;
 
 import com.example.chattest.global.advice.exception.MemberNotFoundException;
-import com.example.chattest.modules.member.Member;
+import com.example.chattest.modules.member.entity.Member;
 import com.example.chattest.modules.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

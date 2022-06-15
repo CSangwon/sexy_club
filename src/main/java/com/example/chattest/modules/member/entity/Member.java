@@ -1,4 +1,4 @@
-package com.example.chattest.modules.member;
+package com.example.chattest.modules.member.entity;
 
 import com.example.chattest.modules.BaseEntity;
 import lombok.AllArgsConstructor;

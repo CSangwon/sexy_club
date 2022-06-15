@@ -1,6 +1,6 @@
 package com.example.chattest.modules.member.repository;
 
-import com.example.chattest.modules.member.Member;
+import com.example.chattest.modules.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

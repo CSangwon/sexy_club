@@ -1,8 +1,8 @@
 package com.example.chattest.modules.member.dto.request;
 
 import com.example.chattest.global.validator.ValidationGroups;
-import com.example.chattest.modules.member.Member;
-import com.example.chattest.modules.member.Role;
+import com.example.chattest.modules.member.entity.Member;
+import com.example.chattest.modules.member.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

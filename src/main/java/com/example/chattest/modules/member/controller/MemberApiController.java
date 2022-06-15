@@ -1,8 +1,7 @@
 package com.example.chattest.modules.member.controller;
 
 import com.example.chattest.modules.member.MemberJoinRequestValidator;
-import com.example.chattest.modules.member.dto.request.EmailAuthRequestDto;
-import com.example.chattest.modules.member.dto.request.MemberJoinRequestDto;
+import com.example.chattest.modules.member.dto.request.*;
 import com.example.chattest.modules.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +27,7 @@ public class MemberApiController {
         webDataBinder.addValidators(memberJoinRequestValidator);
     }
 
+    //== 회원가입 ==//
     //회원가입
     @PostMapping("/join")
     public ResponseEntity<?> joinMember(@Valid @RequestBody MemberJoinRequestDto memberJoinRequestDto, Errors errors) {
@@ -49,6 +49,24 @@ public class MemberApiController {
     @PostMapping("/join/check-email")
     public ResponseEntity<?> checkEmailToken(@RequestBody EmailAuthRequestDto emailAuthRequestDto) {
         return memberService.checkEmailToken(emailAuthRequestDto);
+    }
+
+    //== 로그인 로그아웃 ==//
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody MemberLoginRequestDto memberLoginRequestDto) {
+        return memberService.login(memberLoginRequestDto);
+    }
+
+    /*   accesstoken만료 시 재발급   */
+    @PostMapping("/auth/token")
+    public ResponseEntity<?> reissueAuthenticationToken(@RequestBody TokenRequestDto tokenRequestDto) {
+        return memberService.reissueAuthenticationToken(tokenRequestDto);
+    }
+
+    /*   로그아웃   */
+    @PostMapping("/logout")
+    public void logout(@RequestBody MemberLogoutRequestDto memberLogoutRequestDto) {
+        memberService.logout(memberLogoutRequestDto);
     }
 
 }
