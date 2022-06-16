@@ -10,6 +10,7 @@ import com.example.chattest.modules.mail.repository.EmailAuthRepository;
 import com.example.chattest.modules.mail.service.EmailService;
 import com.example.chattest.modules.member.dto.request.*;
 import com.example.chattest.modules.member.dto.response.JwtTokenResponseDto;
+import com.example.chattest.modules.member.dto.response.MemberLoginResponseDto;
 import com.example.chattest.modules.member.entity.JwtRefreshToken;
 import com.example.chattest.modules.member.entity.Member;
 import com.example.chattest.modules.member.repository.JwtRefreshTokenRepository;
@@ -59,6 +60,7 @@ public class MemberService {
         //3. 이메일 인증이 되었다면 회원가입 진행
         memberJoinRequestDto.setPassword(passwordEncoder.encode(memberJoinRequestDto.getPassword()));
         Member newMember = memberJoinRequestDto.toEntity();
+
 
         memberRepository.save(newMember);
         return new ResponseEntity<>("Join Success", HttpStatus.OK);
@@ -137,7 +139,7 @@ public class MemberService {
 
         final MemberDetails memberDetails = (MemberDetails) memberDetailsService.loadUserByUsername(memberLoginRequestDto.getEmail());
 
-        return ResponseEntity.ok(new MemberLoginRequestDto(memberDetails.getId(), memberLoginRequestDto.getEmail()), accessToken, refreshToken);
+        return ResponseEntity.ok(new MemberLoginResponseDto(memberDetails.getId(), memberLoginRequestDto.getEmail(), accessToken, refreshToken));
     }
 
     public ResponseEntity<?> reissueAuthenticationToken(TokenRequestDto tokenRequestDto) {
@@ -149,8 +151,8 @@ public class MemberService {
         }
 
         // Access Token 에 기술된 사용자 이름 가져오기
-        String username = jwtTokenProvider.getUsernameFromToken(tokenRequestDto.getAccessToken());
-        JwtRefreshToken byUsername = jwtRefreshTokenRepository.findByUsername(username);
+        String email = jwtTokenProvider.getUsernameFromToken(tokenRequestDto.getAccessToken());
+        JwtRefreshToken byUsername = jwtRefreshTokenRepository.findByEmail(email);
 
         // 데이터베이스에 저장된 Refresh Token 과 비교
         JwtRefreshToken jwtRefreshToken = jwtRefreshTokenRepository.findById(byUsername.getId()).orElseThrow(
@@ -161,14 +163,14 @@ public class MemberService {
         }
 
         // 새로운 Access Token 발급
-        final String accessToken = jwtTokenProvider.createAccessToken(username);
+        final String accessToken = jwtTokenProvider.createAccessToken(email);
 
         return ResponseEntity.ok(new JwtTokenResponseDto(accessToken));
     }
 
     // 로그아웃 토근제거
     public void logout(MemberLogoutRequestDto memberLogoutRequestDto) {
-        JwtRefreshToken refreshToken = jwtRefreshTokenRepository.findByUsername(memberLogoutRequestDto.getEmail());
+        JwtRefreshToken refreshToken = jwtRefreshTokenRepository.findByEmail(memberLogoutRequestDto.getEmail());
         jwtRefreshTokenRepository.deleteById(refreshToken.getId());
     }
 }

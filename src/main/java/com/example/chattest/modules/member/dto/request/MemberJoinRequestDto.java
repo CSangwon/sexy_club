@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -43,6 +44,8 @@ public class MemberJoinRequestDto {
                 .name(name)
                 .email(email)
                 .password(password)
+                .emailVerified(true)
+                .emailCheckTokenGeneratedAt(LocalDate.now())
                 .role(Role.MEMBER)
                 .build();
     }
