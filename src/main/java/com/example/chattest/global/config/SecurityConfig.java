@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/v2/api-docs", "/configuration/**", "/swagger-resources/**",
                 "/swagger-ui.html", "/webjars/**", "/swagger/**", "/swagger-ui/**"
         );
+        web.ignoring().antMatchers("/ws/**", "/", "/join", "/chatRoomList", "/js/**", "/css/**", "/error", "/h2-console/**");
     }
 
     @Override
