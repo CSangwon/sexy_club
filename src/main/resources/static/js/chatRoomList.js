@@ -253,7 +253,7 @@ function refreshAccessToken(){
     var now = new Date();
 
     if(accessToken == null || (now.getTime() > expiryDate.getTime())){
-        fetch('/api/v1/users/refreshToken',{
+        fetch('/api/v1/member/auth/token',{
             credentials: "same-origin",
             method: 'POST'
         })

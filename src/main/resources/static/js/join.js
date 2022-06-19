@@ -8,7 +8,7 @@ function join(){
     if(!validateEmail() || !validatePassword())
         alert("입력 정보가 적절하지 않습니다!");
     else{
-            fetch('/api/v1/users/signup', {
+            fetch('/api/v1/member/join', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

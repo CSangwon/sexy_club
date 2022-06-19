@@ -1,15 +1,19 @@
 package com.example.chattest.global.jwt;
 
+import com.example.chattest.modules.member.entity.Member;
+import com.example.chattest.modules.member.repository.MemberRepository;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Setter
@@ -24,6 +28,7 @@ public class JwtTokenProvider {
     public static final long REFRESH_TOKEN_VALID_TIME = 1000L * 60 * 60 * 24 * 7; // 7일
 
     private final UserDetailsService userDetailsService;
+    private final MemberRepository memberRepository;
 
     @PostConstruct
     protected void init(){
@@ -39,6 +44,13 @@ public class JwtTokenProvider {
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
+
+    //JWT 토큰에서 인증 정보 조회
+    public Authentication getAuthentication(String token) {
+        Member member = memberRepository.findByEmail(getUsernameFromToken(token)).orElseThrow();
+        return new JwtAuthenticationToken(member, null);
+    }
+
 
     // 토큰이 만료되었는지 확인(true - 만료)
     public Boolean isTokenExpired(String token) {

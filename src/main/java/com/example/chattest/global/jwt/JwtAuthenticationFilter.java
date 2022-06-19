@@ -32,9 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader(HEADER_STRING); // header에서 X-AUTH-TOKEN 가져옴
-        log.info(header);
         String accessToken = (header != null && header.startsWith(TOKEN_PREFIX)) ? header.replace(TOKEN_PREFIX,"") : null;
-        log.info(accessToken);
 
         // Request Header 에 Access Token (Authorization) 이 담긴 경우
         if (!ObjectUtils.isEmpty(accessToken)) {

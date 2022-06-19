@@ -37,6 +37,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
+    // https://mvnrepository.com/artifact/org.springframework/spring-messaging
+    implementation 'org.springframework:spring-messaging:5.3.20'
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-messaging
+    implementation 'org.springframework.security:spring-security-messaging:5.7.1'
+
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-apt'
