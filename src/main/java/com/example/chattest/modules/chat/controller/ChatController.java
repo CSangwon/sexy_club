@@ -11,7 +11,7 @@ public class ChatController {
     @GetMapping("/chat")
     public String chatGET() {
         log.info("@ChatController, chat Get()");
-
+        //깃 토큰만료
         return "chat";
     }
 }
